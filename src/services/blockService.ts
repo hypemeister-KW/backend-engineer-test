@@ -78,7 +78,7 @@ export async function processBlock(pool: Pool, block: Block): Promise<void> {
         }
 
         await client.query(
-            'UPDATE state SET current_height = $1 WHERE id = 1',
+            'INSERT INTO state (id, current_height) VALUES (1, $1) ON CONFLICT (id) DO UPDATE SET current_height = $1',
             [block.height]
         );
 
